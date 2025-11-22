@@ -1,0 +1,349 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Nexus Onboarding API",
+        "description": "API for automating employee onboarding tasks including identity creation, slack invites, calendar scheduling, and budget approvals.",
+        "version": "1.1.0"
+    },
+    "servers": [
+        {
+            "url": "https://nexus.zyniq.solutions",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/create-identity": {
+            "post": {
+                "summary": "Generate Employee IT Credentials",
+                "description": "Generates a company email and temporary password for a new hire based on their full name.",
+                "operationId": "createIdentity",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "full_name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "department": {
+                                        "type": "string",
+                                        "example": "Marketing"
+                                    }
+                                },
+                                "required": [
+                                    "full_name",
+                                    "department"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful creation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "temp_password": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/invite-slack": {
+            "post": {
+                "summary": "Invite User to Slack",
+                "description": "Adds a user email to the company Slack workspace and specific channels.",
+                "operationId": "inviteSlack",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "channel": {
+                                        "type": "string",
+                                        "example": "general"
+                                    }
+                                },
+                                "required": [
+                                    "email"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Invitation sent",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "workspace": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/book-lunch": {
+            "post": {
+                "summary": "Schedule Welcome Lunch",
+                "description": "Checks manager availability. NOTE: Returns an error if the manager is busy, providing a suggested alternative time.",
+                "operationId": "bookLunch",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "manager_email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "new_hire_name": {
+                                        "type": "string"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "example": "Monday"
+                                    }
+                                },
+                                "required": [
+                                    "manager_email",
+                                    "new_hire_name"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Meeting status response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "description": "confirmed or failed"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Reason for failure if any"
+                                        },
+                                        "suggested_alternative": {
+                                            "type": "string",
+                                            "description": "Next best time slot"
+                                        },
+                                        "time": {
+                                            "type": "string"
+                                        },
+                                        "location": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/request-approval": {
+            "post": {
+                "summary": "Request Budget Override",
+                "description": "Sends a request to the CFO when an expense exceeds the policy limit.",
+                "operationId": "requestApproval",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "amount": {
+                                        "type": "string",
+                                        "example": "$100"
+                                    },
+                                    "reason": {
+                                        "type": "string",
+                                        "example": "VIP Lunch"
+                                    }
+                                },
+                                "required": [
+                                    "amount"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Approval ticket created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ticket_id": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/generate-contract": {
+            "post": {
+                "summary": "Generate Employment Contract",
+                "description": "Creates a PDF contract for the new hire.",
+                "operationId": "generateContract",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "full_name": {
+                                        "type": "string"
+                                    },
+                                    "start_date": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contract generated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "contract_url": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/batch-onboard": {
+            "post": {
+                "summary": "Batch Onboard Multiple Employees",
+                "description": "High-efficiency endpoint that processes multiple names at once to save LLM tokens and reduce latency.",
+                "operationId": "batchOnboard",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "candidates": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "example": [
+                                            "John Doe",
+                                            "Sarah Smith",
+                                            "Mike Ross"
+                                        ],
+                                        "description": "List of names to onboard"
+                                    },
+                                    "department": {
+                                        "type": "string",
+                                        "example": "Sales"
+                                    }
+                                },
+                                "required": [
+                                    "candidates",
+                                    "department"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Batch summary",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "total_processed": {
+                                            "type": "integer"
+                                        },
+                                        "performance_metric": {
+                                            "type": "string"
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
