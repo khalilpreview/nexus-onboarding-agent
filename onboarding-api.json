@@ -344,6 +344,59 @@
                     }
                 }
             }
+        },
+        "/order-device": {
+            "post": {
+                "summary": "Order IT Hardware",
+                "description": "Orders a laptop or device for an employee.",
+                "operationId": "orderDevice",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "employee_email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "device_type": {
+                                        "type": "string",
+                                        "example": "MacBook Pro"
+                                    }
+                                },
+                                "required": [
+                                    "employee_email"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order confirmed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "order_id": {
+                                            "type": "string"
+                                        },
+                                        "eta": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

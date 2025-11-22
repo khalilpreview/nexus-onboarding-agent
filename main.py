@@ -34,6 +34,12 @@ class ApprovalRequest(BaseModel):
     amount: str
     reason: str = "Standard Request"
 
+
+class DeviceRequest(BaseModel):
+    employee_email: str
+    device_type: str = "MacBook Pro"
+
+
 # --- THE FRONTEND (HTML/CSS/JS) ---
 # We serve this as a single string to keep it simple for Replit
 html_code = """
@@ -280,3 +286,16 @@ def request_approval(request: ApprovalRequest):
     state['total_calls'] += 1
     add_log(f"🛡️ GOVERNANCE: Budget exceeded ({request.amount}). Ticket #992 sent to CFO.")
     return {"status": "pending"}
+
+
+@app.post("/order-device")
+def order_device(request: DeviceRequest):
+    # Update Dashboard Logs
+    state['total_calls'] += 1
+    add_log(f"📦 PROCUREMENT: Ordering {request.device_type} for {request.employee_email}")
+    
+    return {
+        "status": "ordered", 
+        "order_id": f"ORD-{random.randint(1000,9999)}",
+        "eta": "2 business days"
+    }
