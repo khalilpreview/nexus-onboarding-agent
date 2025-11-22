@@ -3,48 +3,60 @@
 
   # Nexus // Orchestrator
   
-  **Enterprise-Grade HR Automation & Agentic Workflow Engine**
+  **AI Agent Skill Demonstration for IBM watsonx Orchestrate**
 
-  [![Status](https://img.shields.io/badge/Status-Online-009d9a?style=flat-square)](https://nexus.zyniq.solutions)
+  [![Hackathon](https://img.shields.io/badge/Hackathon-IBM_watsonx_Orchestrate-0F62FE?style=flat-square)](https://www.ibm.com/watsonx)
   [![Python](https://img.shields.io/badge/Python-3.10+-blue?style=flat-square&logo=python)](https://www.python.org/)
-  [![FastAPI](https://img.shields.io/badge/FastAPI-0.95+-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
-  [![License](https://img.shields.io/badge/License-MIT-grey?style=flat-square)](LICENSE)
+  [![FastAPI](https://img.shields.io/badge/FastAPI-Prototype-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
+  [![Status](https://img.shields.io/badge/Status-Demo-009d9a?style=flat-square)](https://nexus.zyniq.solutions)
 
   <p align="center">
-    <i>Seamlessly orchestrating identity provisioning, onboarding logistics, and governance workflows with AI-driven precision.</i>
+    <i>A proof-of-concept showcasing agentic AI capabilities for HR automation workflows.</i>
   </p>
 </div>
 
 ---
 
-## 📋 Overview
+## 🎯 Project Purpose
 
-**Nexus Orchestrator** is a high-performance control plane designed to bridge the gap between AI decision-making (via IBM watsonx or similar agents) and enterprise infrastructure. It serves as the central nervous system for HR operations, handling complex, multi-step processes like new hire onboarding, resource allocation, and compliance checks without human intervention.
+This is a **demonstration project** created for the **Agentic AI Hackathon with IBM watsonx Orchestrate**. It serves as a proof-of-concept to showcase how AI agents can interact with custom tools and APIs to automate complex HR workflows.
 
-Built with **FastAPI**, Nexus provides a real-time dashboard for monitoring agent activities, token usage, and system health, while exposing a robust set of RESTful endpoints for agentic interaction.
+**This is NOT production-ready software** — it's designed to illustrate the potential of agentic AI systems and demonstrate tool-calling patterns that could be integrated with IBM watsonx Orchestrate.
 
-## ✨ Key Features
+## 💡 The Concept
 
-*   **⚡ Batch Onboarding Engine**: Provision identities, Slack workspaces, and email accounts for multiple candidates simultaneously with a single API call.
-*   **📅 Intelligent Scheduling**: Smart calendar management that detects conflicts (e.g., "Manager busy on Monday") and autonomously suggests viable alternatives.
-*   **🛡️ Governance & Approval**: Automated budget checks that route high-value requests (>$1k) to the CFO for approval, ensuring compliance.
-*   **📊 Real-Time Telemetry**: Live dashboard tracking total API calls, estimated token savings, and active agent workflows.
-*   **🔌 Extensible Architecture**: Modular design allowing easy integration with Mock Identity Providers, Slack API, and Google Calendar.
+Nexus Orchestrator simulates an intelligent backend that AI agents can interact with to perform HR operations. The idea is to demonstrate:
 
-## 🚀 Tech Stack
+- **Tool-Calling Capabilities**: How AI agents can invoke specific functions (batch onboarding, calendar management, device procurement)
+- **Workflow Orchestration**: Chaining multiple API calls to complete complex tasks
+- **Intelligent Decision-Making**: Handling conflicts, suggesting alternatives, and routing approvals
+- **Real-Time Monitoring**: Visualizing agent activities through a live dashboard
 
-*   **Backend**: Python 3.10+, FastAPI, Uvicorn
-*   **Frontend**: HTML5, Vanilla CSS (IBM Carbon Design System inspired), JavaScript
-*   **State Management**: In-memory ephemeral state (for demo/prototyping)
-*   **Deployment**: Docker-ready, capable of running on Replit, AWS, or local environments.
+## ✨ Demonstrated Capabilities
 
-## 🛠️ Installation & Setup
+### 🤖 AI Agent Skills
+
+*   **📦 Batch Onboarding**: Process multiple new hires in a single operation (identity creation, Slack invites, email provisioning)
+*   **📅 Smart Scheduling**: Book welcome lunches with conflict detection and alternative suggestions
+*   **💻 Device Procurement**: Order IT equipment with automated order tracking
+*   **🛡️ Governance Routing**: Detect budget thresholds and route approval requests to appropriate stakeholders
+*   **🔑 Identity Management**: Generate credentials and provision access to enterprise systems
+
+### 📊 Monitoring Dashboard
+
+A real-time control plane that visualizes:
+- Total API calls made by agents
+- Estimated token savings from batch operations
+- Live log stream of agent activities
+- Simulated agent conversation preview
+
+## 🚀 Quick Start
 
 ### Prerequisites
-*   Python 3.8 or higher
-*   `pip` (Python Package Manager)
+*   Python 3.8+
+*   `pip` package manager
 
-### Quick Start
+### Installation
 
 1.  **Clone the Repository**
     ```bash
@@ -57,51 +69,70 @@ Built with **FastAPI**, Nexus provides a real-time dashboard for monitoring agen
     pip install fastapi uvicorn
     ```
 
-3.  **Run the Server**
+3.  **Run the Demo Server**
     ```bash
     uvicorn main:app --host 0.0.0.0 --port 8999 --reload
     ```
 
-4.  **Access the Dashboard**
-    Open your browser and navigate to: `http://localhost:8999`
+4.  **View the Dashboard**
+    Navigate to: `http://localhost:8999`
 
-## 🔌 API Documentation
+5.  **Explore the API**
+    Interactive docs: `http://localhost:8999/docs`
 
-Nexus exposes a Swagger UI for easy testing and integration. Once the server is running, visit:
-`http://localhost:8999/docs`
+## 🔌 API Endpoints (Agent Tools)
 
-### Core Endpoints
-
-| Method | Endpoint | Description |
+| Endpoint | Purpose | Example Use Case |
 | :--- | :--- | :--- |
-| `GET` | `/` | **Control Plane Dashboard**: Visual interface for monitoring system status. |
-| `GET` | `/api/stats` | **Telemetry**: Returns JSON data on calls, tokens saved, and logs. |
-| `POST` | `/batch-onboard` | **Action**: Triggers the onboarding sequence for a list of candidates. |
-| `POST` | `/book-lunch` | **Action**: Attempts to book a welcome lunch, handling schedule conflicts. |
-| `POST` | `/request-approval` | **Action**: Submits a budget approval request to the governance engine. |
+| `POST /batch-onboard` | Onboard multiple employees | "Add John, Sarah, and Mike to Engineering" |
+| `POST /book-lunch` | Schedule welcome meetings | "Book lunch for the new hire on Monday" |
+| `POST /order-device` | Procure IT hardware | "Order a MacBook Pro for john@company.com" |
+| `POST /request-approval` | Submit budget requests | "Request approval for $5,000 training budget" |
+| `GET /api/stats` | Retrieve telemetry data | Dashboard updates, monitoring |
 
-## 📸 Dashboard Preview
+## 🎨 Tech Stack
 
-The Nexus Control Plane provides a futuristic, terminal-inspired interface to visualize agent actions in real-time.
+*   **Backend**: FastAPI (Python) - Lightweight, fast API framework
+*   **Frontend**: Vanilla HTML/CSS/JS - IBM Carbon Design System inspired
+*   **State**: In-memory (ephemeral) - Resets on restart
+*   **Deployment**: Designed for quick demos (Replit, local, cloud)
 
-*(Screenshot placeholder - Dashboard view)*
+## 🧪 Integration with IBM watsonx
+
+This API is designed to be consumed by AI agents built with IBM watsonx Orchestrate. The OpenAPI specification (`onboarding-api.json`) can be imported directly into watsonx to enable:
+
+1. **Natural Language → API Calls**: Users can say "Onboard 3 new engineers" and the agent translates this to `/batch-onboard`
+2. **Multi-Step Workflows**: Chain operations like onboarding → device ordering → lunch scheduling
+3. **Error Handling**: Agents can interpret conflict responses and suggest alternatives
+4. **Token Optimization**: Batch operations reduce the number of LLM calls needed
+
+## 📝 Hackathon Context
+
+**Challenge**: Demonstrate how agentic AI can automate enterprise workflows  
+**Solution**: A mock HR orchestration layer that showcases realistic tool-calling patterns  
+**Key Innovation**: Real-time dashboard + batch operations that show token efficiency gains  
+
+## ⚠️ Important Notes
+
+- **Not for Production**: This is a prototype with in-memory state and no authentication
+- **Mock Integrations**: Identity providers, Slack, and calendar systems are simulated
+- **Educational Purpose**: Designed to inspire ideas for real-world agentic AI applications
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+This is a hackathon project, but ideas and improvements are welcome!
 
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
+1.  Fork the repository
+2.  Create a feature branch
+3.  Submit a pull request with your enhancements
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+MIT License - Feel free to use this as a starting point for your own projects.
 
 ---
 
 <div align="center">
-  <small>Powered by Nexus Architecture • Designed for the Future of Work</small>
+  <small>Built for the IBM watsonx Orchestrate Agentic AI Hackathon</small><br>
+  <small>Showcasing the Future of Intelligent Automation</small>
 </div>
